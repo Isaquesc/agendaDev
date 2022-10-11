@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.agenda.agenda.api.mapper.PacienteMapper.toPacienteResponse;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/paciente")
@@ -26,12 +28,12 @@ public class PacienteController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/findById/{id}")
-    public ResponseEntity<Paciente> findById(@PathVariable Long id){
+    public ResponseEntity<PacienteResponse> findById(@PathVariable Long id){
         Optional<Paciente> paciente = service.findById(id);
         if (paciente.isEmpty())
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.status(HttpStatus.OK).body(paciente.get());
+        return ResponseEntity.status(HttpStatus.OK).body(PacienteMapper.toPacienteResponse(paciente.get()));
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/save")
@@ -40,12 +42,12 @@ public class PacienteController {
         Paciente toPacienteRequest = PacienteMapper.toPacienteRequest(request);
         Paciente pacienteSalvo = service.salvar(toPacienteRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(PacienteMapper.toPacienteResponse(pacienteSalvo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(toPacienteResponse(pacienteSalvo));
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/alterar")
-    public ResponseEntity<Paciente> alterar(@RequestBody Paciente paciente){
-        return ResponseEntity.status(HttpStatus.OK).body(service.salvar(paciente));
+    public ResponseEntity<PacienteResponse> alterar(@RequestBody Paciente paciente){
+        return ResponseEntity.status(HttpStatus.OK).body(toPacienteResponse(service.salvar(paciente)));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/delete/{id}")
