@@ -23,8 +23,8 @@ public class PacienteController {
     private final PacienteService service;
 
     @RequestMapping(method = RequestMethod.GET, path = "/findAll")
-    public ResponseEntity<List<Paciente>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<PacienteResponse>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(PacienteMapper.toPacienteResponseList(service.findAll()));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/findById/{id}")
