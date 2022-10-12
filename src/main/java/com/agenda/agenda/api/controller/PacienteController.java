@@ -13,18 +13,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.agenda.agenda.api.mapper.PacienteMapper.toPacienteResponse;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/paciente")
 public class PacienteController {
 
     private final PacienteService service;
+    private final PacienteMapper mapper;
 
     @RequestMapping(method = RequestMethod.GET, path = "/findAll")
     public ResponseEntity<List<PacienteResponse>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(PacienteMapper.toPacienteResponseList(service.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponseList(service.findAll()));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/findById/{id}")
@@ -33,21 +32,21 @@ public class PacienteController {
         if (paciente.isEmpty())
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.status(HttpStatus.OK).body(PacienteMapper.toPacienteResponse(paciente.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponse(paciente.get()));
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/save")
     public ResponseEntity<PacienteResponse> salvar(@RequestBody PacienteRequest request){
 
-        Paciente toPacienteRequest = PacienteMapper.toPacienteRequest(request);
+        Paciente toPacienteRequest = mapper.toPacienteRequest(request);
         Paciente pacienteSalvo = service.salvar(toPacienteRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(toPacienteResponse(pacienteSalvo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toPacienteResponse(pacienteSalvo));
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/alterar")
     public ResponseEntity<PacienteResponse> alterar(@RequestBody Paciente paciente){
-        return ResponseEntity.status(HttpStatus.OK).body(toPacienteResponse(service.salvar(paciente)));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponse(service.salvar(paciente)));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/delete/{id}")
