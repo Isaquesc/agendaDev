@@ -1,8 +1,11 @@
 package com.agenda.agenda.domain.service;
 
+import com.agenda.agenda.api.mapper.PacienteMapper;
+import com.agenda.agenda.api.request.PacienteRequest;
 import com.agenda.agenda.domain.entity.Paciente;
 
 import com.agenda.agenda.domain.repository.PacienteRepository;
+import com.agenda.agenda.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +20,31 @@ public class PacienteService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public Paciente salvar(Paciente paciente)  {
+    @Autowired
+    private PacienteMapper mapper;
 
-        /*if (pacienteRepository.findByCpf(paciente.getCpf()).isPresent())
-            throw new BusinessException ("Cpf já cadastrado!");*/
+    public Paciente salvar(PacienteRequest pacienteRequest)  {
+
+        Optional<Paciente> pacienteCPF = pacienteRepository.findByCpf(pacienteRequest.getCpf());
+
+        if (pacienteCPF.isPresent()){
+            throw new BusinessException("CPF Já Cadastrado");
+        }
+
+        return pacienteRepository.save(mapper.toPacienteRequest(pacienteRequest));
+    }
+
+    public Paciente alterar(Long id, PacienteRequest pacienteRequest){
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(id);
+
+        if(optionalPaciente.isEmpty())
+            throw new BusinessException("Paciente não encontrado");
+
+        Paciente paciente = mapper.toPacienteRequest(pacienteRequest);
+        paciente.setId(id);
 
         return pacienteRepository.save(paciente);
+
     }
 
     public Optional<Paciente> findById(Long id){

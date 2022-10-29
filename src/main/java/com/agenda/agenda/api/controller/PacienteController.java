@@ -5,12 +5,15 @@ import com.agenda.agenda.api.request.PacienteRequest;
 import com.agenda.agenda.api.response.PacienteResponse;
 import com.agenda.agenda.domain.entity.Paciente;
 import com.agenda.agenda.domain.service.PacienteService;
+import com.agenda.agenda.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -36,17 +39,24 @@ public class PacienteController {
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/save")
-    public ResponseEntity<PacienteResponse> salvar(@RequestBody PacienteRequest request){
+    public ResponseEntity<Object> salvar(@Valid @RequestBody PacienteRequest request){
 
-        Paciente toPacienteRequest = mapper.toPacienteRequest(request);
-        Paciente pacienteSalvo = service.salvar(toPacienteRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toPacienteResponse(pacienteSalvo));
+        try {
+            Paciente pacienteSalvo = service.salvar(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toPacienteResponse(pacienteSalvo));
+        }catch (Exception exception){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/alterar")
-    public ResponseEntity<PacienteResponse> alterar(@RequestBody Paciente paciente){
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponse(service.salvar(paciente)));
+    @RequestMapping(method = RequestMethod.PUT, path = "/alterar/{id}")
+    public ResponseEntity<Object> alterar(@PathVariable Long id , @RequestBody PacienteRequest paciente){
+
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponse(service.alterar(id, paciente)));
+        }catch (BusinessException exception){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/delete/{id}")
