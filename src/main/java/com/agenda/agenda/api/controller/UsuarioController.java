@@ -21,8 +21,9 @@ public class UsuarioController {
     private UsuarioService service;
 
     @RequestMapping(method = RequestMethod.POST, path = "/save")
-    public Usuario save(@Valid @RequestBody Usuario usuario){
-        return service.save(usuario);
+    public String save(@Valid @RequestBody Usuario usuario){
+        service.save(usuario);
+        return "Usuario cadastrado com sucesso";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/findAll")
