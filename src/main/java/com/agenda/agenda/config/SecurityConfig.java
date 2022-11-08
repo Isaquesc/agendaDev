@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/Usuario/save",
             // other public endpoints of your API may be appended to this array
             "/login"
     };
@@ -51,6 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //AUTENTICACAO
         http.addFilter(new CustomAuthenticationFilterConfig(authenticationManagerBean()));
+
+        //AUTORIZAÇAO
+        http.addFilterBefore(new CustomAuthorizationFillterConfig(), UsernamePasswordAuthenticationFilter.class);
+
     }
     @Bean
     @Override

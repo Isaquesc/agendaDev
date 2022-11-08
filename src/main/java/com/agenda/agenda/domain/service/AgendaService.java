@@ -31,8 +31,12 @@ public class AgendaService {
     }
 
     public Agenda save(Agenda agenda) {
-        Optional<Paciente> optionalPaciente = pacienteService.findById(agenda.getPaciente().getId());
 
+        if (agenda.getPaciente() == null) {
+            throw new BusinessException("Paciente não informado");
+        }
+
+        Optional<Paciente> optionalPaciente = pacienteService.findById(agenda.getPaciente().getId());
         if (optionalPaciente.isEmpty()) {
             throw new BusinessException("Paciente não encontrado");
         }

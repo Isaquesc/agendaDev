@@ -2,7 +2,7 @@ package com.agenda.agenda.api.controller;
 
 import com.agenda.agenda.api.mapper.AgendaMapper;
 import com.agenda.agenda.api.request.AgendaRequest;
-import com.agenda.agenda.api.response.AgendaResponse;
+import com.agenda.agenda.exception.response.AgendaResponse;
 import com.agenda.agenda.domain.entity.Agenda;
 import com.agenda.agenda.domain.service.AgendaService;
 import com.agenda.agenda.exception.BusinessException;

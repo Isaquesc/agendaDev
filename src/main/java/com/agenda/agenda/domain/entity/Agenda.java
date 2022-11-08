@@ -1,6 +1,8 @@
 package com.agenda.agenda.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "agenda")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Agenda {
 
     @Id

@@ -1,4 +1,4 @@
-package com.agenda.agenda.api.response;
+package com.agenda.agenda.exception.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

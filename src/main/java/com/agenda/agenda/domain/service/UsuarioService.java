@@ -44,4 +44,8 @@ public class UsuarioService implements UserDetailsService {
         return repository.save(usuario);
     }
 
+    public Optional<Usuario> findById(Long id){
+        return repository.findById(id);
+    }
+
 }

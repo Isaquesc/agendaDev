@@ -1,7 +1,7 @@
 package com.agenda.agenda.api.mapper;
 
 import com.agenda.agenda.api.request.PacienteRequest;
-import com.agenda.agenda.api.response.PacienteResponse;
+import com.agenda.agenda.exception.response.PacienteResponse;
 import com.agenda.agenda.domain.entity.Paciente;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

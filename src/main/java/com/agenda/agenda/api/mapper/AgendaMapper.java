@@ -2,7 +2,7 @@ package com.agenda.agenda.api.mapper;
 
 
 import com.agenda.agenda.api.request.AgendaRequest;
-import com.agenda.agenda.api.response.AgendaResponse;
+import com.agenda.agenda.exception.response.AgendaResponse;
 import com.agenda.agenda.domain.entity.Agenda;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

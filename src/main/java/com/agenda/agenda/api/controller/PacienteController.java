@@ -2,7 +2,7 @@ package com.agenda.agenda.api.controller;
 
 import com.agenda.agenda.api.mapper.PacienteMapper;
 import com.agenda.agenda.api.request.PacienteRequest;
-import com.agenda.agenda.api.response.PacienteResponse;
+import com.agenda.agenda.exception.response.PacienteResponse;
 import com.agenda.agenda.domain.entity.Paciente;
 import com.agenda.agenda.domain.service.PacienteService;
 import com.agenda.agenda.exception.BusinessException;
